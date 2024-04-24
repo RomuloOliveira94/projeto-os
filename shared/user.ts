@@ -20,6 +20,6 @@ function fetchUser(): Promise<User> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ name: "Eduardo", company: "Nuxt", age: 30, role: "Developer" });
-    }, 1000);
+    }, 500);
   });
 }
