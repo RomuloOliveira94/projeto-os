@@ -36,21 +36,21 @@
             <ULink to="/">Home</ULink>
           </li>
           <li>
-            <ULink to="/criar-os">Criar OS</ULink>
+            <ULink to="/create-os">Criar OS</ULink>
           </li>
           <li>
-            <ULink to="/criar-orçamento">Criar Orçamento</ULink>
+            <ULink to="/create-budget">Criar Orçamento</ULink>
           </li>
           <hr />
           <li>
             <ULink to="/os">Ver OSs</ULink>
           </li>
           <li>
-            <ULink to="/orçamentos">Ver Orçamentos</ULink>
+            <ULink to="/budget">Ver Orçamentos</ULink>
           </li>
           <hr />
           <li>
-            <ULink to="/relatorios">Relatórios</ULink>
+            <ULink to="/reports">Relatórios</ULink>
           </li>
           <li>
             <ULink to="/config">Configurações</ULink>
