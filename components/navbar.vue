@@ -1,4 +1,20 @@
 <script setup lang="ts">
+  onMounted(() => {
+    if (window.innerWidth < 768) {
+      show.value = false;
+    }
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 768) {
+        show.value = true;
+      }
+
+      if (window.innerWidth < 768) {
+        show.value = false;
+      }
+    });
+  });
+
   const route = useRoute();
   const store = useUserStore();
   const show = ref(true);
@@ -13,7 +29,7 @@
 </script>
 
 <template>
-  <header v-show="isOnDashboard">
+  <header v-if="isOnDashboard">
     <div
       class="bg-sky-400 min-h-screen flex flex-col"
       :class="
@@ -24,7 +40,15 @@
         <Icon
           name="iconamoon:menu-burger-horizontal"
           @click="showMenu"
-          class="cursor-pointer h-10 w-10"
+          class="cursor-pointer h-8 w-8"
+          v-if="!show"
+        />
+
+        <Icon
+          name="akar-icons:cross"
+          @click="showMenu"
+          class="cursor-pointer h-8 w-8"
+          v-else
         />
       </span>
       <nav v-if="show" class="pt-8">
@@ -33,7 +57,7 @@
         </h1>
         <ul class="flex flex-col gap-3">
           <li>
-            <ULink to="/">Home</ULink>
+            <ULink to="/home">Home</ULink>
           </li>
           <li>
             <ULink to="/create-os">Criar OS</ULink>
@@ -60,15 +84,15 @@
       <nav v-else>
         <ul class="flex flex-col gap-3 pt-5">
           <li>
-            <ULink to="/"><Icon name="ic:round-home" class="w-5 h-5" /></ULink>
+            <ULink to="/home"><Icon name="ic:round-home" class="w-5 h-5" /></ULink>
           </li>
           <li>
-            <ULink to="/criar-os"
+            <ULink to="/create-os"
               ><Icon name="icon-park-outline:order" class="w-5 h-5"
             /></ULink>
           </li>
           <li>
-            <ULink to="/criar-orçamento"
+            <ULink to="/create-budget"
               ><Icon name="f7:money-dollar" class="w-5 h-5"
             /></ULink>
           </li>
@@ -80,12 +104,12 @@
             /></ULink>
           </li>
           <li>
-            <ULink to="/orçamentos"
+            <ULink to="/budget"
               ><Icon name="fluent:receipt-money-16-regular" class="w-5 h-5"
             /></ULink>
           </li>
           <li>
-            <ULink to="/relatorios"
+            <ULink to="/reports"
               ><Icon name="icon-park-outline:sales-report" class="w-5 h-5"
             /></ULink>
           </li>
