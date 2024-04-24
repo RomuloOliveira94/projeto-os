@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { string, objectAsync, email, minLength, type Input } from "valibot";
   import type { FormSubmitEvent } from "#ui/types";
-
   const router = useRouter();
 
   const schema = objectAsync({
@@ -19,11 +18,10 @@
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     //chamada da api de login
     if (event.data.email === "r@r.com" && event.data.password === "123") {
-      router.push("/home");
+      await router.replace("/home");
     } else {
       alert("Usuário ou senha inválidos");
     }
-    console.log(event.data);
   }
 </script>
 

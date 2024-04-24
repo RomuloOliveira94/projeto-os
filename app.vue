@@ -1,8 +1,8 @@
 <template>
-  <!-- <ColorScheme
-    ><USelect
-      v-model="$colorMode.preference"
-      :options="['system', 'light', 'dark']"
-  /></ColorScheme> -->
-    <NuxtPage />
+  <div class="flex min-h-screen">
+    <Navbar/>
+    <UContainer>
+      <NuxtPage />
+    </UContainer>
+  </div>
 </template>

@@ -16,10 +16,15 @@ export const useUserStore = defineStore("user", {
     },
   },
 });
-function fetchUser(): Promise<User> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ name: "Eduardo", company: "Nuxt", age: 30, role: "Developer" });
+async function fetchUser(): Promise<User> {
+  return new Promise(async (resolve) => {
+    setTimeout(async () => {
+      resolve({
+        name: "Rômetas",
+        company: "Nuxt",
+        age: 30,
+        role: "Developer",
+      });
     }, 500);
   });
 }
