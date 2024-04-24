@@ -1,7 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/ui"],
+  modules: ["@nuxt/ui", "@pinia/nuxt"],
+  pinia: {
+    storesDirs: ["~/shared/**", "./shared/**"],
+  },
   runtimeConfig: {
     // The private keys which are only available server-side
     apiSecret: "teste123",

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-//pegar nome da empresa no estado global
+  const store = useUserStore();
+  callOnce(store.fetchUser);
 </script>
 
 <template>
-  <h1>Nome da Empresa</h1>
-
   <nav class="bg-red-500 p-5">
+    <h1 class="text-xl font-bold">{{ store.user.company }}</h1>
     <ul class="flex flex-col gap-3">
       <li>
         <ULink to="/">Home</ULink>
