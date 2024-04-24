@@ -31,7 +31,7 @@
 <template>
   <header v-if="isOnDashboard">
     <div
-      class="bg-sky-400 min-h-screen flex flex-col"
+      class="bg-sky-400 min-h-screen flex flex-col text-slate-900"
       :class="
         show ? 'min-w-[180px] p-2 md:p-4' : 'w-fit-content p-1 items-center'
       "
@@ -65,14 +65,14 @@
           <li>
             <ULink to="/create-budget">Criar Orçamento</ULink>
           </li>
-          <hr />
+          <hr class="border border-slate-900 bg-slate-900" />
           <li>
             <ULink to="/os">Ver OSs</ULink>
           </li>
           <li>
             <ULink to="/budget">Ver Orçamentos</ULink>
           </li>
-          <hr />
+          <hr class="border border-slate-900 bg-slate-900" />
           <li>
             <ULink to="/reports">Relatórios</ULink>
           </li>

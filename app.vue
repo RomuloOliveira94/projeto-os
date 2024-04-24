@@ -1,6 +1,19 @@
+<script setup lang="ts">
+  useHead({
+    title: "Os Fácil",
+    meta: [
+      {
+        name: "description",
+        content:
+          "App gerador de os e orçamentos facilitando a vida dos prestadores de serviços.",
+      },
+    ],   
+  });
+</script>
+
 <template>
   <div class="flex min-h-screen">
-    <Navbar/>
+    <Navbar />
     <UContainer>
       <NuxtPage />
     </UContainer>
