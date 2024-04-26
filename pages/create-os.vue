@@ -67,6 +67,17 @@
     services.value = services.value.filter((s) => s !== service);
   };
 
+  const total = computed(() => {
+    return services.value
+      .reduce((acc, service) => {
+        return acc + Number(service.servicePrice);
+      }, 0)
+      .toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+  });
+
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     console.log(event.data);
   }
@@ -142,7 +153,7 @@
         :removeService="removeService"
       />
 
-      <div class="grid md:grid-cols-2 gap-4">
+      <div class="grid md:grid-cols-2 gap-4 my-2">
         <UFormGroup label="Ínicio do serviço" name="serviceDateFrom">
           <UInput v-model="state.serviceDateFrom" type="date" />
         </UFormGroup>
@@ -152,7 +163,11 @@
         </UFormGroup>
       </div>
 
-      <UButton type="submit"> Submit </UButton>
+      <div class="w-full text-end my-2">
+        <span class="text-end text-xl font-bold">Valor: {{ total }}</span>
+      </div>
+
+      <UButton type="submit" class="text-xl " size="xl">Gerar</UButton>
     </UForm>
   </section>
 </template>
