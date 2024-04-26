@@ -20,6 +20,7 @@
   const show = ref(true);
   await callOnce(store.fetchUser);
   const showMenu = () => {
+    if (window.innerWidth > 768) return;
     show.value = !show.value;
   };
 
@@ -55,7 +56,7 @@
       <h1 class="text-xl font-bold pb-12">
         {{ store.user.company }}
       </h1>
-      <ul class="flex flex-col gap-3">
+      <ul class="flex flex-col gap-3" @click="showMenu">
         <li>
           <ULink to="/home">Home</ULink>
         </li>
