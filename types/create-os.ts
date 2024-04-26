@@ -17,3 +17,8 @@ export interface Customer {
   city: string;
   state: string;
 }
+
+export interface Product {
+  model: string;
+  details: string;
+}

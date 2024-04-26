@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <h2 class="text-xl font-bold my-2">Serviço</h2>
+  <h2 class="text-xl font-bold">Serviço</h2>
   <UButton
     v-if="!showService"
     class="w-fit mb-2"

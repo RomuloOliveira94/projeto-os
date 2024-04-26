@@ -139,34 +139,19 @@
       :state="state"
       @submit="onSubmit"
     >
-      <h2 class="text-xl font-bold my-2">Dados do cliente</h2>
+      <h2 class="text-xl font-bold">Dados do cliente</h2>
 
       <UFormGroup
         label="Pesquisar clientes cadastrados:"
         name="selectedCustomer"
       >
         <UInput v-model="searchCustomerInput" type="text" />
-        <ul class="border p-3 mt-2" v-if="searchCustomers.length">
-          <li class="p-2">
-            Mostrando {{ searchCustomers.length }} de
-            {{ customersStore.customers.length }} resultados.
-          </li>
-          <hr />
-          <li
-            class="grid p-2 hover:bg-slate-300 cursor-pointer"
-            v-for="customer in searchCustomers"
-            :key="customer.name"
-            @click="handleAddCustomers(customer.id)"
-          >
-            {{ customer.name }}
-          </li>
-        </ul>
-        <p
-          class="my-1 text-sm font-semibold"
-          v-if="!searchCustomers.length && searchCustomerInput !== ''"
-        >
-          Nenhum cliente encontrado.
-        </p>
+        <CreateosCustomerSearch
+          :searchCustomerInput="searchCustomerInput"
+          :searchCustomers="searchCustomers"
+          :customersStore="customersStore"
+          :handleAddCustomers="handleAddCustomers"
+        />
       </UFormGroup>
 
       <div class="grid gap-4 md:grid-cols-3 w-full">
@@ -248,7 +233,15 @@
         <span class="text-end text-xl font-bold">Valor: {{ total }}</span>
       </div>
 
-      <UButton type="submit" class="text-xl" size="xl">Gerar</UButton>
+      <div class="flex justify-center">
+        <UButton
+          type="submit"
+          class="text-2xl w-44 flex items-center justify-center gap-4"
+        >
+          <span>Criar OS</span>
+          <Icon name="icon-park-outline:order" class="w-5 h-5" />
+        </UButton>
+      </div>
     </UForm>
   </section>
 </template>
