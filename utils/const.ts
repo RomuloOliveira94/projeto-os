@@ -108,3 +108,9 @@ export const states = [
     label: "Tocantins",
   },
 ];
+
+export const sanitizeMoneyValue = (value: string) => {
+  value = value.replace("R$", "");
+  value = value.replace(",", ".");
+  return value;
+};

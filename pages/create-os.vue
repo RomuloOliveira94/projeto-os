@@ -110,6 +110,8 @@
   });
 
   const handleAddService = () => {
+    service.servicePrice = sanitizeMoneyValue(service.servicePrice);
+    console.log(service.servicePrice);
     services.value.push({
       serviceName: service.serviceName,
       serviceDescription: service.serviceDescription,
@@ -176,16 +178,6 @@
       services: services.value,
     });
   }
-
-  const cpfOrCnpjMask = ref("###.###.###-##");
-
-  watch(state, (newState) => {
-    if (state.customerCpfOrCnpj.length > 14) {
-      cpfOrCnpjMask.value = "##.###.###/####-##";
-    } else {
-      cpfOrCnpjMask.value = "###.###.###-##";
-    }
-  });
 </script>
 
 <template>
@@ -219,14 +211,22 @@
 
       <div class="grid gap-4 md:grid-cols-2 w-full">
         <UFormGroup label="Nome do cliente" name="customerName">
-          <UInput v-model="state.customerName" />
+          <UInput
+            v-maska
+            data-maska="a"
+            data-maska-tokens="a:[a-z]:multiple"
+            v-model="state.customerName"
+          />
         </UFormGroup>
 
         <UFormGroup label="CPF/CNPJ" name="customerCpfOrCnpj">
           <UInput
             v-model="state.customerCpfOrCnpj"
             v-maska
-            :data-maska="cpfOrCnpjMask"
+            data-maska="[
+              '###.###.###-##',
+              '##.###.###/####-##'
+            ]"
           />
         </UFormGroup>
         <UFormGroup label="Telefone" name="customerPhone">

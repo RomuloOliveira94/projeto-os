@@ -31,7 +31,12 @@
     </UFormGroup>
 
     <UFormGroup label="Valor" name="servicePrice">
-      <UInput v-model="service.servicePrice" />
+      <UInput
+        v-maska
+        data-maska="R$ 0,99"
+        data-maska-tokens="0:\d:multiple|9:\d:optional"
+        v-model="service.servicePrice"
+      />
     </UFormGroup>
 
     <UFormGroup class="col-span-2" label="Descrição" name="serviceDescription">
