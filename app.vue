@@ -1,6 +1,6 @@
 <script setup lang="ts">
   useHead({
-    title: "Os Fácil",
+    title: "OS Fácil",
     meta: [
       {
         name: "description",
