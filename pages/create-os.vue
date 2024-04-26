@@ -1,12 +1,29 @@
 <script setup lang="ts">
-  import { string, objectAsync, email, minLength, type Input } from "valibot";
+  import {
+    string,
+    objectAsync,
+    minLength,
+    type Input,
+    optional,
+  } from "valibot";
   import type { FormSubmitEvent } from "#ui/types";
-  import type { Customer, Product, Service } from "~/types/create-os";
+  import type { Product, Service } from "~/types/create-os";
 
   const schema = objectAsync({
     customerName: string([minLength(1, "Nome do cliente é obrigatório")]),
-    email: string([email("Invalid email")]),
-    password: string([minLength(8, "Must be at least 8 characters")]),
+    customerEmail: optional(string()),
+    customerPhone: string([minLength(11, "Telefone do cliente é obrigatório")]),
+    customerAddress: string([
+      minLength(1, "Endereço do cliente é obrigatório"),
+    ]),
+    customerNumber: string([minLength(1, "Número do cliente é obrigatório")]),
+    customerNeighborhood: optional(string()),
+    customerCpfOrCnpj: optional(string()),
+    customerCity: optional(string()),
+    customerState: optional(string()),
+    customerZipCode: optional(string()),
+    serviceDateFrom: optional(string()),
+    serviceDateTo: optional(string()),
   });
 
   type Schema = Input<typeof schema>;
@@ -22,12 +39,9 @@
     customerCity: "",
     customerState: "",
     customerZipCode: "",
-    customerProduct: "",
     serviceDateFrom: "",
     serviceDateTo: "",
-    materials: "",
     observations: "",
-    password: "",
   });
 
   const service = reactive<Service>({
@@ -102,7 +116,8 @@
     service.serviceName = "";
     service.serviceDescription = "";
     service.servicePrice = "";
-    showService.value = false;
+    showService.value = !showService.value;
+    console.log(showService.value);
   };
 
   const handleAddProduct = () => {
@@ -112,7 +127,7 @@
     });
     product.model = "";
     product.details = "";
-    showProduct.value = false;
+    showProduct.value = !showProduct.value;
   };
 
   const handleAddCustomers = (customersId: string) => {
@@ -123,6 +138,7 @@
     state.customerPhone = customers?.phone || "";
     state.customerAddress = customers?.address || "";
     state.customerNumber = customers?.number || "";
+    state.customerEmail = customers?.email || "";
     state.customerNeighborhood = customers?.neighborhood || "";
     state.customerEmail = customers?.email || "";
     state.customerCpfOrCnpj = customers?.cpfOrCnpj || "";
@@ -152,7 +168,11 @@
   });
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log(event.data);
+    console.log({
+      ...event.data,
+      products: products.value,
+      services: services.value,
+    });
   }
 </script>
 
@@ -195,6 +215,10 @@
         </UFormGroup>
         <UFormGroup label="Telefone" name="customerPhone">
           <UInput v-model="state.customerPhone" />
+        </UFormGroup>
+
+        <UFormGroup label="Email" name="customerEmail">
+          <UInput type="email" v-model="state.customerEmail" />
         </UFormGroup>
       </div>
 

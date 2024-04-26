@@ -8,6 +8,11 @@
   }>();
 
   const showProduct = ref(props.showProduct);
+
+  const handleAdd = () => {
+    props.handleAddProduct();
+    showProduct.value = !showProduct.value;
+  };
 </script>
 
 <template>
@@ -36,9 +41,7 @@
         @click="showProduct = !showProduct"
         >Cancelar</UButton
       >
-      <UButton type="button" @click="handleAddProduct()" class="w-20"
-        >Adicionar</UButton
-      >
+      <UButton type="button" @click="handleAdd" class="w-20">Adicionar</UButton>
     </div>
   </div>
 </template>

@@ -8,6 +8,11 @@
   }>();
 
   const showService = ref(props.showService);
+
+  const handleAdd = () => {
+    props.handleAddService();
+    showService.value = !showService.value;
+  };
 </script>
 
 <template>
@@ -40,9 +45,7 @@
         @click="showService = !showService"
         >Cancelar</UButton
       >
-      <UButton type="button" @click="handleAddService()" class="w-20"
-        >Adicionar</UButton
-      >
+      <UButton type="button" @click="handleAdd" class="w-20">Adicionar</UButton>
     </div>
   </div>
 </template>
