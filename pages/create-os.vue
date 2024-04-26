@@ -50,6 +50,27 @@
 
   const showService = ref(false);
 
+  const customers = ref([
+    {
+      id: "1",
+      name: "Cliente 1",
+      phone: "999999999",
+      address: "Rua 1",
+      number: "123",
+      email: "",
+    },
+    {
+      id: "2",
+      name: "Cliente 2",
+      phone: "888888888",
+      address: "Rua 2",
+      number: "456",
+      email: "",
+    },
+  ]);
+
+  const selectedCustomer = ref();
+
   const handleAddService = () => {
     services.value.push({
       serviceName: service.serviceName,
@@ -60,6 +81,17 @@
     service.serviceDescription = "";
     service.servicePrice = "";
     showService.value = false;
+  };
+
+  const handleAddCostumer = (costumerId: string) => {
+    console.log(costumerId);
+    const costumer = customers.value.find((c) => c.id === costumerId);
+    console.log(costumer);
+    state.customerName = costumer?.name || "";
+    state.customerPhone = costumer?.phone || "";
+    state.customerAddress = costumer?.address || "";
+    state.customerNumber = costumer?.number || "";
+    state.customerEmail = costumer?.email || "";
   };
 
   const removeService = (service: Service) => {
@@ -97,6 +129,17 @@
       @submit="onSubmit"
     >
       <h2 class="text-xl font-bold my-2">Dados do cliente</h2>
+
+      <UFormGroup label="Clientes cadastrados" name="customerState">
+        <USelect
+          v-model="selectedCustomer"
+          :options="customers"
+          option-attribute="name"
+          value-attribute="id"
+          @change="handleAddCostumer(selectedCustomer)"
+        />
+      </UFormGroup>
+
       <div class="grid gap-4 md:grid-cols-2 w-full">
         <UFormGroup label="Nome do cliente" name="customerName">
           <UInput v-model="state.customerName" />
