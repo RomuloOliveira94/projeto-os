@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { string, objectAsync, email, minLength, type Input } from "valibot";
   import type { FormSubmitEvent } from "#ui/types";
-  import type { Service } from "~/types/create-os";
+  import type { Customer, Service } from "~/types/create-os";
 
   const schema = objectAsync({
     customerName: string([minLength(1, "Nome do cliente é obrigatório")]),
@@ -16,6 +16,7 @@
     customerPhone: "",
     customerAddress: "",
     customerNumber: "",
+    customerNeighborhood: "",
     customerEmail: "",
     customerCpfOrCnpj: "",
     customerCity: "",
@@ -50,26 +51,30 @@
 
   const showService = ref(false);
 
-  const customers = ref([
-    {
-      id: "1",
-      name: "Cliente 1",
-      phone: "999999999",
-      address: "Rua 1",
-      number: "123",
-      email: "",
-    },
-    {
-      id: "2",
-      name: "Cliente 2",
-      phone: "888888888",
-      address: "Rua 2",
-      number: "456",
-      email: "",
-    },
-  ]);
+  const customersStore = useCustomersStore();
 
-  const selectedCustomer = ref();
+  await callOnce(customersStore.fetchCustomers);
+
+  const searchCustomerInput = ref("");
+  const searchCustomers = computed(() => {
+    if (searchCustomerInput.value === "") {
+      return [];
+    }
+
+    let matches = 0;
+
+    return customersStore.customers.filter((customer) => {
+      if (
+        customer.name
+          .toLowerCase()
+          .includes(searchCustomerInput.value.toLowerCase()) &&
+        matches < 10
+      ) {
+        matches++;
+        return customer;
+      }
+    });
+  });
 
   const handleAddService = () => {
     services.value.push({
@@ -83,15 +88,21 @@
     showService.value = false;
   };
 
-  const handleAddCostumer = (costumerId: string) => {
-    console.log(costumerId);
-    const costumer = customers.value.find((c) => c.id === costumerId);
-    console.log(costumer);
-    state.customerName = costumer?.name || "";
-    state.customerPhone = costumer?.phone || "";
-    state.customerAddress = costumer?.address || "";
-    state.customerNumber = costumer?.number || "";
-    state.customerEmail = costumer?.email || "";
+  const handleAddCustomers = (customersId: string) => {
+    const customers = customersStore.customers.find(
+      (c) => c.id === customersId
+    );
+    state.customerName = customers?.name || "";
+    state.customerPhone = customers?.phone || "";
+    state.customerAddress = customers?.address || "";
+    state.customerNumber = customers?.number || "";
+    state.customerNeighborhood = customers?.neighborhood || "";
+    state.customerEmail = customers?.email || "";
+    state.customerCpfOrCnpj = customers?.cpfOrCnpj || "";
+    state.customerCity = customers?.city || "";
+    state.customerState = customers?.state || "";
+    state.customerZipCode = customers?.zipCode || "";
+    searchCustomerInput.value = "";
   };
 
   const removeService = (service: Service) => {
@@ -130,17 +141,35 @@
     >
       <h2 class="text-xl font-bold my-2">Dados do cliente</h2>
 
-      <UFormGroup label="Clientes cadastrados" name="customerState">
-        <USelect
-          v-model="selectedCustomer"
-          :options="customers"
-          option-attribute="name"
-          value-attribute="id"
-          @change="handleAddCostumer(selectedCustomer)"
-        />
+      <UFormGroup
+        label="Pesquisar clientes cadastrados:"
+        name="selectedCustomer"
+      >
+        <UInput v-model="searchCustomerInput" type="text" />
+        <ul class="border p-3 mt-2" v-if="searchCustomers.length">
+          <li class="p-2">
+            Mostrando {{ searchCustomers.length }} de
+            {{ customersStore.customers.length }} resultados.
+          </li>
+          <hr />
+          <li
+            class="grid p-2 hover:bg-slate-300 cursor-pointer"
+            v-for="customer in searchCustomers"
+            :key="customer.name"
+            @click="handleAddCustomers(customer.id)"
+          >
+            {{ customer.name }}
+          </li>
+        </ul>
+        <p
+          class="my-1 text-sm font-semibold"
+          v-if="!searchCustomers.length && searchCustomerInput !== ''"
+        >
+          Nenhum cliente encontrado.
+        </p>
       </UFormGroup>
 
-      <div class="grid gap-4 md:grid-cols-2 w-full">
+      <div class="grid gap-4 md:grid-cols-3 w-full">
         <UFormGroup label="Nome do cliente" name="customerName">
           <UInput v-model="state.customerName" />
         </UFormGroup>
@@ -148,19 +177,22 @@
         <UFormGroup label="CPF/CNPJ" name="customerCpfOrCnpj">
           <UInput v-model="state.customerCpfOrCnpj" />
         </UFormGroup>
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-3 w-full">
         <UFormGroup label="Telefone" name="customerPhone">
           <UInput v-model="state.customerPhone" />
         </UFormGroup>
+      </div>
 
-        <UFormGroup label="Endereço" name="customerAddress">
+      <div class="grid gap-4 md:grid-cols-3 w-full">
+        <UFormGroup class="flex-1" label="Endereço" name="customerAddress">
           <UInput v-model="state.customerAddress" />
         </UFormGroup>
 
         <UFormGroup label="Nº" name="customerNumber">
-          <UInput v-model="state.customerAddress" />
+          <UInput v-model="state.customerNumber" />
+        </UFormGroup>
+
+        <UFormGroup label="Bairro" name="customerNeighborhood">
+          <UInput v-model="state.customerNeighborhood" />
         </UFormGroup>
       </div>
 

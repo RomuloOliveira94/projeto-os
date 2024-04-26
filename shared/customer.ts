@@ -1,4 +1,4 @@
-interface Costumer {
+interface Customer {
   id: string;
   name: string;
   phone: string;
@@ -12,19 +12,19 @@ interface Costumer {
   state: string;
 }
 
-export const useCostumerStore = defineStore("costumer", {
+export const useCustomersStore = defineStore("customers", {
   state: () => ({
-    customers: [] as Costumer[],
+    customers: [] as Customer[],
   }),
   actions: {
-    async fetchCostumers() {
-      const costumers = await fetchCostumers();
-      this.customers = costumers;
+    async fetchCustomers() {
+      const customers = await fetchCustomers();
+      this.customers = customers;
     },
   },
 });
 
-async function fetchCostumers(): Promise<Costumer[]> {
+async function fetchCustomers(): Promise<Customer[]> {
   return new Promise(async (resolve) => {
     setTimeout(async () => {
       resolve([
