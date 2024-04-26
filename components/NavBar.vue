@@ -31,7 +31,7 @@
 <template>
   <header
     v-if="isOnDashboard"
-    class="bg-sky-400 flex flex-col text-slate-900 h-screen"
+    class="bg-sky-400 flex flex-col text-slate-900 min-h-screen"
     :class="
       show ? 'min-w-[180px] p-2 md:p-4' : 'w-fit-content p-1 items-center'
     "

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { string, objectAsync, email, minLength, type Input } from "valibot";
   import type { FormSubmitEvent } from "#ui/types";
-  import type { Customer, Service } from "~/types/create-os";
+  import type { Customer, Product, Service } from "~/types/create-os";
 
   const schema = objectAsync({
     customerName: string([minLength(1, "Nome do cliente é obrigatório")]),
@@ -36,6 +36,22 @@
     servicePrice: "",
   });
 
+  const product = reactive<Product>({
+    model: "",
+    details: "",
+  });
+
+  const products = ref<Product[]>([
+    {
+      model: "Produto 1",
+      details: "Detalhes do produto 1",
+    },
+    {
+      model: "Produto 2",
+      details: "Detalhes do produto 2",
+    },
+  ]);
+
   const services = ref<Service[]>([
     {
       serviceName: "Serviço 1",
@@ -50,6 +66,7 @@
   ]);
 
   const showService = ref(false);
+  const showProduct = ref(false);
 
   const customersStore = useCustomersStore();
 
@@ -88,6 +105,16 @@
     showService.value = false;
   };
 
+  const handleAddProduct = () => {
+    products.value.push({
+      model: product.model,
+      details: product.details,
+    });
+    product.model = "";
+    product.details = "";
+    showProduct.value = false;
+  };
+
   const handleAddCustomers = (customersId: string) => {
     const customers = customersStore.customers.find(
       (c) => c.id === customersId
@@ -107,6 +134,10 @@
 
   const removeService = (service: Service) => {
     services.value = services.value.filter((s) => s !== service);
+  };
+
+  const removeProduct = (product: Product) => {
+    products.value = products.value.filter((p) => p !== product);
   };
 
   const total = computed(() => {
@@ -199,6 +230,19 @@
         </UFormGroup>
       </div>
 
+      <CreateosAddProducts
+        :showProduct="showProduct"
+        :product="product"
+        :handleAddProduct="handleAddProduct"
+      />
+
+      <CreateosProducts
+        :products="products"
+        :product="product"
+        :showProduct="showProduct"
+        :removeProduct="removeProduct"
+      />
+
       <CreateosAddServices
         :showService="showService"
         :service="service"
@@ -217,7 +261,7 @@
           <UInput v-model="state.serviceDateFrom" type="date" />
         </UFormGroup>
 
-        <UFormGroup label="Fim do serviço" name="serviceDateTo">
+        <UFormGroup label="Fim do serviço (previsão)" name="serviceDateTo">
           <UInput v-model="state.serviceDateTo" type="date" />
         </UFormGroup>
       </div>

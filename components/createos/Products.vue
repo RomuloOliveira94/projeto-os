@@ -2,9 +2,9 @@
   import type { Product } from "~/types/create-os";
   defineProps<{
     products: Product[];
-    showService: boolean;
+    showProduct: boolean;
     product: Product;
-    removeProduct: (service: Product) => void;
+    removeProduct: (product: Product) => void;
   }>();
 </script>
 
@@ -22,7 +22,7 @@
           <span class="text-start">
             {{ product.details }}
           </span>
-          <span>
+          <span class="flex justify-end items-center">
             <UButton
               type="button"
               class="bg-red-500 rounded-full w-fit"

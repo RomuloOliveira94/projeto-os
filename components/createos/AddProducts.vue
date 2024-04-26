@@ -11,13 +11,13 @@
 </script>
 
 <template>
-  <h2 class="text-xl font-bold">Serviço</h2>
+  <h2 class="text-xl font-bold">Produtos do cliente</h2>
   <UButton
     v-if="!showProduct"
     class="w-fit mb-2"
     type="button"
     @click="showProduct = !showProduct"
-    >Adicionar Serviço</UButton
+    >Adicionar Produto</UButton
   >
 
   <div class="grid md:grid-cols-2 gap-4" v-if="showProduct">
