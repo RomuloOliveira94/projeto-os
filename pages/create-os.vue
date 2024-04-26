@@ -16,6 +16,7 @@
     customerAddress: string([
       minLength(1, "Endereço do cliente é obrigatório"),
     ]),
+    customerComplement: optional(string()),
     customerNumber: string([minLength(1, "Número do cliente é obrigatório")]),
     customerNeighborhood: optional(string()),
     customerCpfOrCnpj: optional(string()),
@@ -34,6 +35,7 @@
     customerAddress: "",
     customerNumber: "",
     customerNeighborhood: "",
+    customerComplement: "",
     customerEmail: "",
     customerCpfOrCnpj: "",
     customerCity: "",
@@ -174,6 +176,16 @@
       services: services.value,
     });
   }
+
+  const cpfOrCnpjMask = ref("###.###.###-##");
+
+  watch(state, (newState) => {
+    if (state.customerCpfOrCnpj.length > 14) {
+      cpfOrCnpjMask.value = "##.###.###/####-##";
+    } else {
+      cpfOrCnpjMask.value = "###.###.###-##";
+    }
+  });
 </script>
 
 <template>
@@ -205,16 +217,24 @@
         />
       </UFormGroup>
 
-      <div class="grid gap-4 md:grid-cols-3 w-full">
+      <div class="grid gap-4 md:grid-cols-2 w-full">
         <UFormGroup label="Nome do cliente" name="customerName">
           <UInput v-model="state.customerName" />
         </UFormGroup>
 
         <UFormGroup label="CPF/CNPJ" name="customerCpfOrCnpj">
-          <UInput v-model="state.customerCpfOrCnpj" />
+          <UInput
+            v-model="state.customerCpfOrCnpj"
+            v-maska
+            :data-maska="cpfOrCnpjMask"
+          />
         </UFormGroup>
         <UFormGroup label="Telefone" name="customerPhone">
-          <UInput v-model="state.customerPhone" />
+          <UInput
+            v-model="state.customerPhone"
+            v-maska
+            data-maska="(##) #####-####"
+          />
         </UFormGroup>
 
         <UFormGroup label="Email" name="customerEmail">
@@ -222,13 +242,17 @@
         </UFormGroup>
       </div>
 
-      <div class="grid gap-4 md:grid-cols-3 w-full">
+      <div class="grid gap-4 md:grid-cols-2 w-full">
         <UFormGroup class="flex-1" label="Endereço" name="customerAddress">
           <UInput v-model="state.customerAddress" />
         </UFormGroup>
 
         <UFormGroup label="Nº" name="customerNumber">
-          <UInput v-model="state.customerNumber" />
+          <UInput v-maska data-maska="######" v-model="state.customerNumber" />
+        </UFormGroup>
+
+        <UFormGroup label="Complemento" name="customerComplement">
+          <UInput v-model="state.customerComplement" />
         </UFormGroup>
 
         <UFormGroup label="Bairro" name="customerNeighborhood">
@@ -238,7 +262,11 @@
 
       <div class="grid gap-4 md:grid-cols-3 w-full">
         <UFormGroup label="CEP" name="customerZipCode">
-          <UInput v-model="state.customerZipCode" />
+          <UInput
+            v-maska
+            data-maska="#####-###"
+            v-model="state.customerZipCode"
+          />
         </UFormGroup>
 
         <UFormGroup label="Cidade" name="customerCity">
