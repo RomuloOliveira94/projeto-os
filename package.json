@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
+    "date-fns": "^3.6.0",
     "nuxt-icon": "^0.6.10",
     "pinia": "^2.1.7",
     "valibot": "^0.30.0"

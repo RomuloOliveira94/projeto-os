@@ -2,6 +2,7 @@
   import { string, objectAsync, email, minLength, type Input } from "valibot";
   import type { FormSubmitEvent } from "#ui/types";
   import type { Service } from "~/types/create-os";
+  import { format } from "date-fns";
 
   const schema = objectAsync({
     customerName: string([minLength(1, "Nome do cliente é obrigatório")]),
@@ -128,44 +129,11 @@
         </UFormGroup>
       </div>
 
-      <h2 class="text-xl font-bold my-2">Serviço</h2>
-      <UButton
-        v-if="!showService"
-        class="w-fit mb-2"
-        type="button"
-        @click="showService = !showService"
-        >Adicionar Serviço</UButton
-      >
-
-      <div class="grid md:grid-cols-2 gap-4" v-if="showService">
-        <UFormGroup label="Serviço" name="serviceName">
-          <UInput v-model="service.serviceName" />
-        </UFormGroup>
-
-        <UFormGroup label="Valor" name="servicePrice">
-          <UInput v-model="service.servicePrice" />
-        </UFormGroup>
-
-        <UFormGroup
-          class="col-span-2"
-          label="Descrição"
-          name="serviceDescription"
-        >
-          <UTextarea v-model="service.serviceDescription" />
-        </UFormGroup>
-
-        <div class="flex gap-4">
-          <UButton
-            class="bg-red-500 hover:bg-red-700 w-20"
-            type="button"
-            @click="showService = !showService"
-            >Cancelar</UButton
-          >
-          <UButton type="button" @click="handleAddService()" class="w-20"
-            >Adicionar</UButton
-          >
-        </div>
-      </div>
+      <CreateosAddServices
+        :showService="showService"
+        :service="service"
+        :handleAddService="handleAddService"
+      />
 
       <CreateosServices
         :services="services"
@@ -174,9 +142,15 @@
         :removeService="removeService"
       />
 
-      <UFormGroup label="Password" name="password">
-        <UInput v-model="state.password" type="password" />
-      </UFormGroup>
+      <div class="grid md:grid-cols-2 gap-4">
+        <UFormGroup label="Ínicio do serviço" name="serviceDateFrom">
+          <UInput v-model="state.serviceDateFrom" type="date" />
+        </UFormGroup>
+
+        <UFormGroup label="Fim do serviço" name="serviceDateTo">
+          <UInput v-model="state.serviceDateTo" type="date" />
+        </UFormGroup>
+      </div>
 
       <UButton type="submit"> Submit </UButton>
     </UForm>
