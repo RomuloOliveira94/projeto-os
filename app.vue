@@ -13,7 +13,7 @@
 
 <template>
   <div class="flex min-h-screen">
-    <Navbar />
+    <NavBar />
     <UContainer>
       <NuxtPage />
     </UContainer>

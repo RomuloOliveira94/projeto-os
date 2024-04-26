@@ -2,7 +2,6 @@
   import { string, objectAsync, email, minLength, type Input } from "valibot";
   import type { FormSubmitEvent } from "#ui/types";
   import type { Service } from "~/types/create-os";
-  import { format } from "date-fns";
 
   const schema = objectAsync({
     customerName: string([minLength(1, "Nome do cliente é obrigatório")]),
@@ -92,7 +91,7 @@
 
   <section class="flex w-full">
     <UForm
-      class="grid gap-2 w-full"
+      class="grid gap-4 xl:w-screen"
       :schema="schema"
       :state="state"
       @submit="onSubmit"
@@ -153,7 +152,7 @@
         :removeService="removeService"
       />
 
-      <div class="grid md:grid-cols-2 gap-4 my-2">
+      <div class="grid md:grid-cols-2 gap-4">
         <UFormGroup label="Ínicio do serviço" name="serviceDateFrom">
           <UInput v-model="state.serviceDateFrom" type="date" />
         </UFormGroup>
@@ -163,11 +162,18 @@
         </UFormGroup>
       </div>
 
-      <div class="w-full text-end my-2">
+      <UFormGroup label="Observações" name="observations">
+        <UTextarea
+          placeholder="Adicione observações aqui"
+          v-model="state.observations"
+        />
+      </UFormGroup>
+
+      <div class="w-full text-end">
         <span class="text-end text-xl font-bold">Valor: {{ total }}</span>
       </div>
 
-      <UButton type="submit" class="text-xl " size="xl">Gerar</UButton>
+      <UButton type="submit" class="text-xl" size="xl">Gerar</UButton>
     </UForm>
   </section>
 </template>
